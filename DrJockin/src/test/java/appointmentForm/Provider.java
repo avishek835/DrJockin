@@ -4,15 +4,21 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.relevantcodes.extentreports.LogStatus;
+
 import baseFile.Base;
+import drJockinUtil.UtilFile;
 
 public class Provider extends Base {
 	
+	@Test
+	public void startProviderTest()
+	{
+		test.log(LogStatus.PASS, "Start the Provider form fill up using Data Provider through excel file");
+	}
 	
 	@Test(dataProvider="getData")
 	public void providerForm(String FirstN, String MiddleN, String LastN, String Address, String Phone, String Email, String Hourly_Rate, String Detail) throws InterruptedException
@@ -33,14 +39,25 @@ public class Provider extends Base {
 		driver.findElement(By.xpath(propX.getProperty("Profession"))).click();
 		driver.findElement(By.xpath(propX.getProperty("HourlyRate"))).sendKeys(Hourly_Rate);
 		driver.findElement(By.xpath(propX.getProperty("Details"))).sendKeys(Detail);
+		UtilFile.takeScreenShot(driver,"E:\\Avishek\\ScreenShot", "ss.png");
+		test.log(LogStatus.INFO, " Screen Shot: "+test.addScreenCapture(UtilFile.takeScreenShot(driver, "E:\\Avishek\\ScreenShot", "ss.png")));
+		
 		driver.findElement(By.xpath(propX.getProperty("SEND"))).click();
+		/*UtilFile.takeScreenShot(driver,"E:\\Avishek\\ScreenShot", "ss.png");
+		test.log(LogStatus.INFO, " Screen Shot: "+test.addScreenCapture(UtilFile.takeScreenShot(driver, "E:\\Avishek\\ScreenShot", "ss.png")));
+		*/
+		test.log(LogStatus.PASS, "Form Submitted successfully");
+		
+		test.log(LogStatus.PASS, "Test Pass");
+		rep.endTest(test);
+		rep.flush();
 		
 	}
 	
 	@DataProvider(name="getData")
 	 
 	 public Object[][] getData() {
-			Object[][] arrayObject = getExcelData("E:\\Avishek\\SeleniumProjects\\DrJockin\\src\\test\\java\\appointmentForm\\AppoinmentData.xls","Provider");
+			Object[][] arrayObject = getExcelData("E:\\Avishek\\SeleniumProjects\\GIT\\DrJockin\\DrJockin\\src\\test\\java\\appointmentForm\\AppoinmentData.xls","Provider");
 			return arrayObject;
 }	
 	

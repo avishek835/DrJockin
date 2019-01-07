@@ -4,8 +4,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 
 import com.relevantcodes.extentreports.DisplayOrder;
 import com.relevantcodes.extentreports.ExtentReports;
@@ -17,6 +23,7 @@ public class UtilFile {
 	private FileInputStream ip;
 	static ExtentTest test;
 	private static ExtentReports extent;
+	private static File screenshotFile;
 	
 	public UtilFile()
 	{
@@ -49,6 +56,21 @@ public class UtilFile {
 		}
 		return extent;
 		
+	}
+	
+	public static String takeScreenShot(WebDriver chDriver, String filePath, String fileName) 
+	{
+		String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		screenshotFile = ((TakesScreenshot)chDriver).getScreenshotAs(OutputType.FILE);
+		try {
+			FileUtils.copyFile(screenshotFile, new File(filePath+"\\"+fileName+timeStamp+".png"));
+			return filePath+"\\"+fileName+timeStamp+".png";
+			}
+		catch(IOException e) 
+							{
+								e.printStackTrace();
+								return "Unable to get file!!";
+							}
 	}
 
 }

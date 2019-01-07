@@ -17,6 +17,8 @@ import org.testng.annotations.BeforeTest;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
 import drJockinUtil.UtilFile;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -27,8 +29,8 @@ import jxl.read.biff.BiffException;
 public class Base {
 	
 	public Properties propX;
-	ExtentReports rep=UtilFile.getInstance();
-	ExtentTest test;
+	protected ExtentReports rep=UtilFile.getInstance();
+	protected ExtentTest test;
 	protected WebDriver driver;
 	protected WebDriverWait wait;
 	protected WebElement element;
@@ -45,7 +47,7 @@ public class Base {
 	@BeforeTest
 	public  void beforetest()
 	{
-		//test=rep.startTest("EMAIL FUNCTIONALITY");
+		test=rep.startTest("START THE FORM CHECKING");
 		String chromeDriverPath = propX.getProperty("PATH");
 		System.setProperty("webdriver.chrome.driver", chromeDriverPath);
 		driver=new ChromeDriver();
@@ -59,14 +61,14 @@ public class Base {
 	public void beforemethod()
 	{
 		//test.log(LogStatus.INFO, "Starting the test");
-		//test.log(LogStatus.INFO, "Open Chrome Browser");
+		test.log(LogStatus.PASS, "Open Chrome Browser");
 		//System.out.println(propX.getProperty("Authorname"));
 		//test.log(LogStatus.INFO, "Report Created by: Avishek");
 		System.out.println(System.getProperty("user.dir"));
 		driver.get(propX.getProperty("URL"));
-		//test.log(LogStatus.INFO, "TopStar URL Loaded");
+		test.log(LogStatus.PASS, "DrJocking URL Loaded into the browser");
 		driver.manage().window().maximize();
-		//test.log(LogStatus.INFO, "Maximized the Window");
+		test.log(LogStatus.PASS, "Maximized the Window");
 	}
 	
 	public String[][] getExcelData(String fileName, String sheetName) {
